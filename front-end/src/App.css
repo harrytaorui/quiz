@@ -36,3 +36,38 @@
     transform: rotate(360deg);
   }
 }
+
+nav {
+  width: 100%;
+  background-color: darkblue;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 20px;
+}
+.nav-bar {
+  width: 950px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.nav-link{
+  margin: 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.active {
+  background-color: deepskyblue;
+}
+
+.products {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.product {
+  width: 30%;
+}
