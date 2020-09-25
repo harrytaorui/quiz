@@ -10,13 +10,15 @@ export default class Product extends Component {
   }
 
   async handleSubmit(event){
+    event.preventDefault();
+    const product = this.state;
     const response = await fetch(`http://localhost:8080/products`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(this.state),
+      body: JSON.stringify(product),
     });
     if (response.status === 400) {
       alert('商品名称已存在，请输入新的商品名称');
