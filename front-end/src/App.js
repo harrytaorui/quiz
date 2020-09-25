@@ -5,6 +5,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Header from "./Component/Header";
 import Shop from "./Component/Shop";
 import Order from "./Component/Order";
+import Product from "./Component/Product";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={Shop}/>
           {<Route exact path='/order' component={Order}/>}
-          {/*<Route exact path='/product' component={Product}/>*/}
+          {<Route exact path='/product' component={Product}/>}
         </Switch>
       </BrowserRouter>
     </div>

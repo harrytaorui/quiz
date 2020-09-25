@@ -25,7 +25,6 @@ export default class Product extends Component {
 
   handleFieldChange = (field, event) => {
     const value = event.target.value;
-    const numberReg =
       this.setState({
         [field]: value
       })
@@ -41,17 +40,17 @@ export default class Product extends Component {
                    onChange={(event) => this.handleFieldChange('name', event)}/>
           </div>
           <div className='form-group'>
-            <label htmlFor='name'>名称</label>
-            <input type='text' className='form-control' id='name' value={this.state.price} placeholder='名称'
+            <label htmlFor='name'>价格</label>
+            <input type='text' className='form-control' id='name' value={this.state.price} placeholder='价格'
                    onChange={(event) => this.handleFieldChange('price', event)}/>
           </div>
           <div className='form-group'>
-            <label htmlFor='name'>名称</label>
-            <input type='text' className='form-control' id='name' value={this.state.unit} placeholder='名称'
+            <label htmlFor='name'>单位</label>
+            <input type='text' className='form-control' id='name' value={this.state.unit} placeholder='单位'
                    onChange={(event) => this.handleFieldChange('unit', event)}/>
           </div>
           <div className='form-group'>
-            <label htmlFor='name'>名称</label>
+            <label htmlFor='name'>图片</label>
             <input type='text' className='form-control' id='name' value={this.state.imgUrl} placeholder='图片'
                    onChange={(event) => this.handleFieldChange('imgUrl', event)}/>
           </div>
