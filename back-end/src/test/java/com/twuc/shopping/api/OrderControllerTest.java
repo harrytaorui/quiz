@@ -80,7 +80,7 @@ public class OrderControllerTest {
         Product banana = Product.builder().name("banana").price(1).imgUrl("1").unit("个").build();
         ProductEntity bananaEntity = ProductEntity.builder().imgUrl("1").name("banana").price(1).unit("个").build();
         productRepository.save(bananaEntity);
-        Order order = Order.builder().amount(4).product(banana).build();
+        Order order = Order.builder().amount(4).product(Product.builder().name("banana").build()).build();
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(order);
         mockMvc.perform(post("/orders")

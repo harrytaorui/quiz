@@ -46,7 +46,7 @@ public class OrderService {
     }
 
     public OrderEntity createOrder(Order order) {
-        System.out.println(order.getProduct().getName());
+
         Optional<ProductEntity> result = productRepository.findByName(order.getProduct().getName());
         if (!result.isPresent()) {
             return null;
