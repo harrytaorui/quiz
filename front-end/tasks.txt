@@ -1,0 +1,4 @@
+task1: 创建header，建立link
+task1:  创建商城页面，绑定api获取商品列表
+task2： 创建订单页面，绑定api获取订单列表
+task3：创建商品页面，绑定api添加商品
