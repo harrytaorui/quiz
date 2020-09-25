@@ -1,8 +1,12 @@
 package com.twuc.shopping.Service;
 
 import com.twuc.shopping.Entity.OrderEntity;
+import com.twuc.shopping.Entity.ProductEntity;
 import com.twuc.shopping.Repository.OrderRepository;
+import com.twuc.shopping.Repository.ProductRepository;
 import com.twuc.shopping.dto.Order;
+import com.twuc.shopping.dto.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,15 +20,18 @@ public class OrderService {
 
     final ProductService productService;
 
-    public OrderService(OrderRepository orderRepository, ProductService productService) {
+    final ProductRepository productRepository;
+
+    public OrderService(OrderRepository orderRepository, ProductService productService, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.productService = productService;
+        this.productRepository = productRepository;
     }
 
     public List<Order> getOrders() {
         List<OrderEntity> orderList = orderRepository.findAll();
         return orderList.stream().map(e -> Order.builder()
-                .product(e.getProduct())
+                .product(productService.convertEntityToProduct(e.getProductEntity()))
                 .amount(e.getAmount())
                 .build()).collect(Collectors.toList());
     }
@@ -36,5 +43,20 @@ public class OrderService {
         }
         orderRepository.deleteById(id);
         return true;
+    }
+
+    public OrderEntity createOrder(Order order) {
+        System.out.println(order.getProduct().getName());
+        Optional<ProductEntity> result = productRepository.findByName(order.getProduct().getName());
+        if (!result.isPresent()) {
+            return null;
+        }
+        ProductEntity productEntity = result.get();
+        OrderEntity orderEntity = OrderEntity.builder()
+                .amount(order.getAmount())
+                .productEntity(productEntity)
+                .build();
+        orderRepository.save(orderEntity);
+        return orderEntity;
     }
 }

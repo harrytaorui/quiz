@@ -20,12 +20,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product convertEntityToProduct(Integer productId) {
-        Optional<ProductEntity> result = productRepository.findById(productId);
-        if (!result.isPresent()){
-            return null;
-        }
-        ProductEntity productEntity = result.get();
+    public Product convertEntityToProduct(ProductEntity productEntity) {
         return Product.builder()
                 .name(productEntity.getName())
                 .imgUrl(productEntity.getImgUrl())
