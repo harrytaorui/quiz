@@ -5,8 +5,6 @@ import com.twuc.shopping.Entity.ProductEntity;
 import com.twuc.shopping.Repository.OrderRepository;
 import com.twuc.shopping.Repository.ProductRepository;
 import com.twuc.shopping.dto.Order;
-import com.twuc.shopping.dto.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +31,7 @@ public class OrderService {
         return orderList.stream().map(e -> Order.builder()
                 .product(productService.convertEntityToProduct(e.getProductEntity()))
                 .amount(e.getAmount())
+                .id(e.getId())
                 .build()).collect(Collectors.toList());
     }
 
@@ -46,16 +45,22 @@ public class OrderService {
     }
 
     public OrderEntity createOrder(Order order) {
-
-        Optional<ProductEntity> result = productRepository.findByName(order.getProduct().getName());
-        if (!result.isPresent()) {
-            return null;
+        OrderEntity orderEntity;
+        Optional<OrderEntity> orderResult = orderRepository.findByProductName(order.getProductName());
+        if (orderResult.isPresent()) {
+            orderEntity = orderResult.get();
+            orderEntity.setAmount(orderEntity.getAmount() + 1);
+        } else {
+            Optional<ProductEntity> productResult = productRepository.findByName(order.getProductName());
+            if (!productResult.isPresent()) {
+                return null;
+            }
+            orderEntity = OrderEntity.builder()
+                    .amount(order.getAmount())
+                    .productEntity(productResult.get())
+                    .productName(order.getProductName())
+                    .build();
         }
-        ProductEntity productEntity = result.get();
-        OrderEntity orderEntity = OrderEntity.builder()
-                .amount(order.getAmount())
-                .productEntity(productEntity)
-                .build();
         orderRepository.save(orderEntity);
         return orderEntity;
     }

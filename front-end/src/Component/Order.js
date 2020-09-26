@@ -15,20 +15,22 @@ export default class Order extends Component {
   }
 
   async handleClick(event) {
-    const index = event.target.value;
-    const response = await fetch(`http://localhost:8080/orders/${index + 1}`, {
+    this.setState({
+      isLoading: true
+    })
+    const id = event.target.value;
+    const response = await fetch(`http://localhost:8080/orders/${id}`, {
       method: 'DELETE',
     });
-    if (response.status !== 204) {
+    if (response.status === 204) {
+      await this.componentDidMount()
+    } else {
       alert("订单删除失败，请稍后再试");
     }
   }
 
   render() {
-    const {orders, isLoading} = this.state;
-    if (isLoading) {
-      return <p>Loading</p>
-    }
+    const {orders} = this.state;
     if (orders.length === 0) {
       return (
         <div className='no-content'>
@@ -40,6 +42,7 @@ export default class Order extends Component {
     return (
       <div className='orders'>
         <table>
+          <thead>
           <tr>
             <td>名字</td>
             <td>单价</td>
@@ -47,6 +50,8 @@ export default class Order extends Component {
             <td>单位</td>
             <td>操作</td>
           </tr>
+          </thead>
+          <tbody>
           {orders.map((order, index) => {
             return (
               <tr key={index} className='order'>
@@ -55,11 +60,12 @@ export default class Order extends Component {
                 <td>{order.amount}</td>
                 <td>{order.product.unit}</td>
                 <td>
-                  <button onClick={(e) => this.handleClick} value={index}>删除</button>
+                  <button onClick={(e) => this.handleClick(e)} value={order.id}>删除</button>
                 </td>
               </tr>
             )
           })}
+          </tbody>
         </table>
       </div>
     )

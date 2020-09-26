@@ -3,8 +3,6 @@ package com.twuc.shopping.api;
 import com.twuc.shopping.Entity.OrderEntity;
 import com.twuc.shopping.Service.OrderService;
 import com.twuc.shopping.dto.Order;
-import com.twuc.shopping.dto.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +24,7 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    public ResponseEntity addOrder(Order order) {
+    public ResponseEntity addOrder(@RequestBody Order order) {
         OrderEntity orderEntity = orderService.createOrder(order);
         if (orderEntity == null) {
             return ResponseEntity.badRequest().body("商品不存在");
@@ -34,9 +32,9 @@ public class OrderController {
         return ResponseEntity.status(201).header("index", String.valueOf(orderEntity.getId())).build();
     }
 
-    @DeleteMapping("/orders/{productId}")
-    public ResponseEntity deleteOrder(@PathVariable int productId) {
-        boolean deleted = orderService.deleteOrder(productId);
+    @DeleteMapping("/orders/{orderId}")
+    public ResponseEntity deleteOrder(@PathVariable int orderId) {
+        boolean deleted = orderService.deleteOrder(orderId);
         if (deleted) {
             return ResponseEntity.noContent().build();
         }else {

@@ -13,13 +13,17 @@ export default class Shop extends Component{
   }
 
   async handleClick(event){
+    this.setState({
+      isLoading: true
+    })
     const index = event.target.value;
     const product = this.state.products[index];
     const order = {
       amount: 1,
-      product: {...product}
+      product: {...product},
+      productName: product.name
     }
-    await fetch('http://localhost:8080/orders', {
+    const response = await fetch('http://localhost:8080/orders', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -27,14 +31,16 @@ export default class Shop extends Component{
       },
       body: JSON.stringify(order),
     });
-    console.log("1");
+    if (response.status === 201) {
+      this.setState({
+        isLoading: false
+      })
+    }
+    console.log(order);
   }
 
   render() {
     const {products, isLoading} = this.state;
-    if (isLoading){
-      return <p>Loading</p>
-    }
     return (
       <div className='products'>
         {products.map((product,index)=>{
@@ -43,7 +49,7 @@ export default class Shop extends Component{
               <img src={product.imgUrl} alt={product.name}/>
               <p>{product.name}</p>
               <p>单价：{product.price}元/{product.unit}</p>
-              <button onClick={(e)=>this.handleClick} value={index}>加入购物车</button>
+              <button onClick={(e)=>this.handleClick(e)} disabled={isLoading} value={index}>加入购物车</button>
             </div>
           )
         })}

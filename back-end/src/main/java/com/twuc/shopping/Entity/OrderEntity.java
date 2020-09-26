@@ -1,14 +1,12 @@
 package com.twuc.shopping.Entity;
 
 
-import com.twuc.shopping.dto.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +19,8 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer amount;
+    @Column(name = "name")
+    private String productName;
     @OneToOne
     @JoinColumn(name = "product_id")
     private ProductEntity productEntity;

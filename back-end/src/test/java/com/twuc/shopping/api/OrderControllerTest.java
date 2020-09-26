@@ -42,6 +42,8 @@ public class OrderControllerTest {
     void startUp() {
         ProductEntity apple = ProductEntity.builder().imgUrl("1").name("apple").price(1).unit("个").build();
         productRepository.save(apple);
+        ProductEntity bananaEntity = ProductEntity.builder().imgUrl("1").name("banana").price(1).unit("个").build();
+        productRepository.save(bananaEntity);
         OrderEntity order1 = OrderEntity.builder().amount(4).productEntity(apple).build();
         orderRepository.save(order1);
     }
@@ -57,7 +59,7 @@ public class OrderControllerTest {
     void should_return_order_list() throws Exception {
         mockMvc.perform(get("/orders"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].product.name", is("apple")));
     }
 
@@ -65,22 +67,20 @@ public class OrderControllerTest {
     void should_delete_order_if_exist() throws Exception {
         mockMvc.perform(delete("/orders/1")).andExpect(status().isNoContent());
         List<OrderEntity> entities = orderRepository.findAll();
-        assertEquals(entities.size(),0);
+        assertEquals(entities.size(),1);
     }
 
     @Test
     void should_fail_delete_if_order_not_exist() throws Exception {
-        mockMvc.perform(delete("/orders/2")).andExpect(status().isBadRequest());
+        mockMvc.perform(delete("/orders/3")).andExpect(status().isBadRequest());
         List<OrderEntity> entities = orderRepository.findAll();
-        assertEquals(entities.size(),1);
+        assertEquals(entities.size(),2);
     }
 
     @Test
     void should_add_order() throws Exception {
         Product banana = Product.builder().name("banana").price(1).imgUrl("1").unit("个").build();
-        ProductEntity bananaEntity = ProductEntity.builder().imgUrl("1").name("banana").price(1).unit("个").build();
-        productRepository.save(bananaEntity);
-        Order order = Order.builder().amount(4).product(Product.builder().name("banana").build()).build();
+        Order order = Order.builder().amount(4).product(banana).productName("banana").build();
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(order);
         mockMvc.perform(post("/orders")

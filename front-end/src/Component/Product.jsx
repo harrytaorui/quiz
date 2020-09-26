@@ -20,6 +20,14 @@ export default class Product extends Component {
       },
       body: JSON.stringify(product),
     });
+    if (response.status === 201) {
+      this.setState({
+        name: '',
+        price: 0,
+        unit: '',
+        imgUrl: ''
+      })
+    }
     if (response.status === 400) {
       alert('商品名称已存在，请输入新的商品名称');
     }
@@ -35,7 +43,7 @@ export default class Product extends Component {
   render() {
     return (
       <div className='container'>
-        <form className='my-form' onSubmit={this.handleSubmit}>
+        <form className='my-form' onSubmit={(e)=>this.handleSubmit(e)}>
           <div className='form-group'>
             <label htmlFor='name'>名称</label>
             <input type='text' className='form-control' id='name' value={this.state.name} placeholder='名称'
