@@ -67,8 +67,7 @@ export default class Product extends Component {
           <button
             type='submit'
             className='btn btn-primary'
-            disabled={this.state.name === '' || !(/[0-9]/).test(this.state.price) || this.state.unit === '' || this.state.imgUrl === ''}
-          >
+            disabled={this.state.name === '' || !(/[0-9]/).test(this.state.price) || this.state.unit === '' || this.state.imgUrl === ''}>
             Submit
           </button>
         </form>
