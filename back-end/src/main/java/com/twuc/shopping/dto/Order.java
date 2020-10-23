@@ -14,7 +14,5 @@ import java.util.List;
 @Builder
 public class Order {
     private List<Product> products;
-    private Integer amount;
-    private String productName;
     private Integer id;
 }

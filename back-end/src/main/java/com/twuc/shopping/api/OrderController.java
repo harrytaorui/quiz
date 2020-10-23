@@ -25,7 +25,7 @@ public class OrderController {
 
     @PostMapping("/orders")
     public ResponseEntity addOrder(@RequestBody Order order) {
-        OrderEntity orderEntity = orderService.createOrder(order);
+        OrderEntity orderEntity = orderService.createOrder(order.getProducts());
         if (orderEntity == null) {
             return ResponseEntity.badRequest().body("商品不存在");
         }

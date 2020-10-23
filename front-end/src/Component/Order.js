@@ -14,11 +14,10 @@ export default class Order extends Component {
     this.setState({orders, isLoading: false});
   }
 
-  async handleClick(event) {
+  handleClick = async (id) => {
     this.setState({
       isLoading: true
     })
-    const id = event.target.value;
     const response = await fetch(`http://localhost:8080/orders/${id}`, {
       method: 'DELETE',
     });
@@ -41,32 +40,41 @@ export default class Order extends Component {
     }
     return (
       <div className='orders'>
-        <table>
-          <thead>
-          <tr>
-            <td>名字</td>
-            <td>单价</td>
-            <td>数量</td>
-            <td>单位</td>
-            <td>操作</td>
-          </tr>
-          </thead>
-          <tbody>
-          {orders.map((order, index) => {
-            return (
-              <tr key={index} className='order'>
-                <td>{order.product.name}</td>
-                <td>{order.product.price}</td>
-                <td>{order.amount}</td>
-                <td>{order.product.unit}</td>
-                <td>
-                  <button onClick={(e) => this.handleClick(e)} value={order.id}>删除</button>
-                </td>
+
+        {orders.map((order, index) => {
+          return (
+            <table>
+              <p>订单号：{order.id}</p>
+              <button onClick={this.handleClick(order.id)}>删除</button>
+              <thead>
+              <tr>
+                <td>#</td>
+                <td>名字</td>
+                <td>单价</td>
+                <td>数量</td>
               </tr>
-            )
-          })}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+              {order.products.map(product => {
+                return (
+                  <tr key={index} className='order'>
+                    <td>{index}</td>
+                    <td>{product.name}</td>
+                    <td>{product.price}</td>
+                    <td>`{product.amount}{product.unit}`</td>
+                  </tr>
+                )
+              })}
+              <tr>
+                <td>总价</td>
+                <td/>
+                <td>{order.products.reduce(product=>product.price*product.amount)}</td>
+              </tr>
+              </tbody>
+            </table>
+          )
+        })}
+
       </div>
     )
   }

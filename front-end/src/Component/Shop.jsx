@@ -23,6 +23,10 @@ export default class Shop extends Component {
     if (item === undefined) {
       item = {
         name: product.name,
+        price: product.price,
+        unit: product.unit,
+        id: product.id,
+        imgUrl: product.imgUrl,
         num: 1
       }
     } else {
@@ -83,12 +87,9 @@ export default class Shop extends Component {
     this.setState({
       isLoading: true
     })
-    const index = event.target.value;
-    const product = this.state.products[index];
+    const products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : []
     const order = {
-      amount: 1,
-      product: {...product},
-      productName: product.name
+      products: {...products},
     }
     const response = await fetch('http://localhost:8080/orders', {
       method: 'POST',

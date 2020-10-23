@@ -19,10 +19,6 @@ public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer amount;
-    @Column(name = "name")
-    private String productName;
-    @OneToMany
-    @JoinColumn(name = "product_id")
-    private List<ProductEntity> productEntities;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<OrderDetailEntity> OrderDetailEntities;
 }

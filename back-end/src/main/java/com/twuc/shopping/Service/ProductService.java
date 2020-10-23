@@ -20,15 +20,6 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product convertEntityToProduct(ProductEntity productEntity) {
-        return Product.builder()
-                .name(productEntity.getName())
-                .imgUrl(productEntity.getImgUrl())
-                .unit(productEntity.getUnit())
-                .price(productEntity.getPrice())
-                .build();
-    }
-
     public List<Product> getProducts() {
         List<ProductEntity> productList = productRepository.findAll();
         return productList.stream().map(e -> Product.builder()

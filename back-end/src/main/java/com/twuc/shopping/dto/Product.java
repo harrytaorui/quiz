@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,5 +23,6 @@ public class Product {
     private String unit;
     @NotEmpty
     private String imgUrl;
-
+    private Integer id;
+    private int num;
 }
