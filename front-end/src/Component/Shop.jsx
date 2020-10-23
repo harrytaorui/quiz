@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {DeleteOutlined, ShoppingCartOutlined} from '@ant-design/icons/lib/icons';
+import {ShoppingCartOutlined} from '@ant-design/icons/lib/icons';
+import Cart from './Cart';
 
 export default class Shop extends Component {
 
@@ -29,46 +30,47 @@ export default class Shop extends Component {
         imgUrl: product.imgUrl,
         num: 1
       }
+      products.push(item)
     } else {
       item.num += 1
     }
-    products.push(item)
+    console.log(products)
     localStorage.setItem("products", JSON.stringify(products))
     this.setState({
       isLoading: false
     })
   }
 
-  checkCart = () => {
-    const products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : []
-    if (products.length === 0) {
-      return <p>暂无商品，请添加商品</p>
-    }
-    return (
-      <div className='shopping-cart'>
-        <table>
-          <thead>
-          <tr>
-            <td>商品</td>
-            <td>数量</td>
-            <td/>
-          </tr>
-          </thead>
-          <tbody>
-          {products.forEach((product, index) => {
-            return (
-              <tr key={index} className='product'>
-                <td>{product.name}</td>
-                <td>{product.num}</td>
-                <td><DeleteOutlined/></td>
-              </tr>
-            )
-          })}
-          </tbody>
-        </table>
-      </div>
-    )
-  }
+  // checkCart = () => {
+  //   const products = localStorage.getItem("products") ? JSON.parse(localStorage.getItem("products")) : []
+  //   if (products.length === 0) {
+  //     return <p>暂无商品，请添加商品</p>
+  //   }
+  //   return (
+  //     <div className='shopping-cart'>
+  //       <table>
+  //         <thead>
+  //         <tr>
+  //           <td>商品</td>
+  //           <td>数量</td>
+  //           <td/>
+  //         </tr>
+  //         </thead>
+  //         <tbody>
+  //         {products.forEach((product, index) => {
+  //           return (
+  //             <tr key={index} className='product'>
+  //               <td>{product.name}</td>
+  //               <td>{product.num}</td>
+  //               <td><DeleteOutlined/></td>
+  //             </tr>
+  //           )
+  //         })}
+  //         </tbody>
+  //       </table>
+  //     </div>
+  //   )
+  // }
 
   deleteAllInCart = () => {
     localStorage.clear()
@@ -83,7 +85,7 @@ export default class Shop extends Component {
     localStorage.setItem("products", JSON.stringify(products))
   }
 
-  async handleSubmit(event) {
+  handleSubmit = async () => {
     this.setState({
       isLoading: true
     })
@@ -121,6 +123,7 @@ export default class Shop extends Component {
             </div>
           )
         })}
+        <Cart deleteAllInCart={this.deleteAllInCart} handleSubmit={this.handleSubmit}/>
         <ShoppingCartOutlined/>
       </div>
     )
