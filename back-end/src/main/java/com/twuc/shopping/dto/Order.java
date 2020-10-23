@@ -6,12 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Order {
-    private Product product;
+    private List<Product> products;
     private Integer amount;
     private String productName;
     private Integer id;
